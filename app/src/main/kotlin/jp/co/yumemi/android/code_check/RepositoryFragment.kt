@@ -36,4 +36,9 @@ class RepositoryFragment : Fragment(R.layout.fragment_repository) {
         _binding.forksView.text = "${item.forksCount} forks";
         _binding.openIssuesView.text = "${item.openIssuesCount} open issues";
     }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        binding = null
+    }
 }

@@ -23,9 +23,7 @@ import java.util.*
 /**
  * RepositoriesFragment で使う
  */
-class RepositoriesViewModel(
-    val context: Context
-) : ViewModel() {
+class RepositoriesViewModel : ViewModel() {
 
     // 検索結果
     fun searchResults(inputText: String): List<Item> = runBlocking {
@@ -57,7 +55,7 @@ class RepositoriesViewModel(
                     Item(
                         name = name,
                         ownerIconUrl = ownerIconUrl,
-                        language = context.getString(R.string.written_language, language),
+                        language = "Written in $language",
                         stargazersCount = stargazersCount,
                         watchersCount = watchersCount,
                         forksCount = forksCount,
