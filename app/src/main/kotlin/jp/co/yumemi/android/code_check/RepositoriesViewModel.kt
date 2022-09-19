@@ -43,9 +43,6 @@ class RepositoriesViewModel(
 
             val items = mutableListOf<Item>()
 
-            /**
-             * アイテムの個数分ループする
-             */
             for (i in 0 until jsonItems.length()) {
                 val jsonItem = jsonItems.optJSONObject(i)
                 val name = jsonItem.optString("full_name")
