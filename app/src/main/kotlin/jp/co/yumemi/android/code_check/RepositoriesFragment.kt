@@ -25,7 +25,7 @@ class RepositoriesFragment : Fragment(R.layout.fragment_repositories) {
 
         val binding = FragmentRepositoriesBinding.bind(view)
 
-        val viewModel = RepositoriesViewModel(requireContext())
+        val viewModel = RepositoriesViewModel()
 
         val layoutManager = LinearLayoutManager(requireContext())
         val dividerItemDecoration =
