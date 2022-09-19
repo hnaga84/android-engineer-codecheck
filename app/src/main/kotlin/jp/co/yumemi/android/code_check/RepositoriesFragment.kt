@@ -3,6 +3,7 @@
  */
 package jp.co.yumemi.android.code_check
 
+import android.app.AlertDialog
 import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -11,10 +12,10 @@ import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
 import android.widget.TextView
-import androidx.core.content.ContextCompat.getSystemService
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.*
+import io.ktor.client.features.*
 import jp.co.yumemi.android.code_check.databinding.FragmentRepositoriesBinding
 
 class RepositoriesFragment : Fragment(R.layout.fragment_repositories) {
@@ -44,8 +45,26 @@ class RepositoriesFragment : Fragment(R.layout.fragment_repositories) {
 
                     val inputText = editText.text.toString()
                     if (inputText.isNotEmpty()) {
-                        viewModel.searchResults(inputText).apply {
-                            adapter.submitList(this)
+                        try {
+                            viewModel.searchResults(inputText).apply {
+                                adapter.submitList(this)
+                            }
+                        } catch (e: ClientRequestException) {
+                            AlertDialog.Builder(requireContext()) // FragmentではActivityを取得して生成
+                                .setTitle("通信エラー")
+                                .setMessage("時間をおいてから再度お試しください")
+                                .setPositiveButton("OK") { dialog, _ ->
+                                    dialog.dismiss()
+                                }
+                                .show()
+                        } catch (e: Exception) {
+                            AlertDialog.Builder(requireContext()) // FragmentではActivityを取得して生成
+                                .setTitle("通信エラー")
+                                .setMessage("接続に失敗しました")
+                                .setPositiveButton("OK") { dialog, _ ->
+                                    dialog.dismiss()
+                                }
+                                .show()
                         }
                     }
                     return@setOnEditorActionListener true
