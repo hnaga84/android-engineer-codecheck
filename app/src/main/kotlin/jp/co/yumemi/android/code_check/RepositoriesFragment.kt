@@ -17,13 +17,24 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.*
 import io.ktor.client.features.*
 import jp.co.yumemi.android.code_check.databinding.FragmentRepositoriesBinding
+import jp.co.yumemi.android.code_check.databinding.FragmentRepositoryBinding
 
 class RepositoriesFragment : Fragment(R.layout.fragment_repositories) {
 
+    private var binding: FragmentRepositoriesBinding? = null
+    private val _binding get() = binding!!
+
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        binding = FragmentRepositoriesBinding.inflate(inflater, container, false)
+        return _binding.root
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        val binding = FragmentRepositoriesBinding.bind(view)
 
         val viewModel = RepositoriesViewModel()
 
@@ -36,7 +47,7 @@ class RepositoriesFragment : Fragment(R.layout.fragment_repositories) {
             }
         })
 
-        binding.searchInputText
+        _binding.searchInputText
             .setOnEditorActionListener { editText, action, _ ->
                 if (action == EditorInfo.IME_ACTION_SEARCH) {
                     val imm: InputMethodManager? =
@@ -72,7 +83,7 @@ class RepositoriesFragment : Fragment(R.layout.fragment_repositories) {
                 return@setOnEditorActionListener false
             }
 
-        binding.recyclerView.also {
+        _binding.recyclerView.also {
             it.layoutManager = layoutManager
             it.addItemDecoration(dividerItemDecoration)
             it.adapter = adapter
