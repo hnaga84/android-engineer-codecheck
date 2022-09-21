@@ -13,10 +13,8 @@ import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
 import android.widget.TextView
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.*
-import io.ktor.client.features.*
 import jp.co.yumemi.android.code_check.databinding.FragmentRepositoriesBinding
 import jp.co.yumemi.android.code_check.model.Repository
 
@@ -38,64 +36,57 @@ class RepositoriesFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         val viewModel = RepositoriesViewModel()
-
-        val layoutManager = LinearLayoutManager(requireContext())
-        val dividerItemDecoration =
-            DividerItemDecoration(requireContext(), layoutManager.orientation)
         val adapter = CustomAdapter(object : CustomAdapter.OnItemClickListener {
             override fun itemClick(item: Repository) {
                 gotoRepositoryFragment(item)
             }
         })
-        viewModel.repositories.observe(viewLifecycleOwner, Observer { it ->
-            it?.let { adapter.submitList(it) }
-        })
 
+        viewModel.repositories.observe(viewLifecycleOwner) { it ->
+            it?.let { adapter.submitList(it) }
+        }
+        viewModel.searchError.observe(viewLifecycleOwner) {
+            it?.let {
+                AlertDialog.Builder(requireContext()) // FragmentではActivityを取得して生成
+                    .setTitle(viewModel.alertTitle)
+                    .setMessage(viewModel.alertMessage)
+                    .setPositiveButton("OK") { dialog, _ ->
+                        dialog.dismiss()
+                    }
+                    .show()
+            }
+        }
+
+        setDivider()
+        _binding.recyclerView.adapter = adapter
         _binding.searchInputText
             .setOnEditorActionListener { editText, action, _ ->
                 if (action == EditorInfo.IME_ACTION_SEARCH) {
                     val imm: InputMethodManager? =
                         requireContext().getSystemService(Context.INPUT_METHOD_SERVICE) as? InputMethodManager
                     imm?.hideSoftInputFromWindow(view.windowToken, 0)
-
-                    val inputText = editText.text.toString()
-                    if (inputText.isNotEmpty()) {
-                        try {
-                            viewModel.searchRepositories(inputText)
-                        } catch (e: ClientRequestException) {
-                            AlertDialog.Builder(requireContext()) // FragmentではActivityを取得して生成
-                                .setTitle("通信エラー")
-                                .setMessage("時間をおいてから再度お試しください")
-                                .setPositiveButton("OK") { dialog, _ ->
-                                    dialog.dismiss()
-                                }
-                                .show()
-                        } catch (e: Exception) {
-                            AlertDialog.Builder(requireContext()) // FragmentではActivityを取得して生成
-                                .setTitle("通信エラー")
-                                .setMessage("接続に失敗しました")
-                                .setPositiveButton("OK") { dialog, _ ->
-                                    dialog.dismiss()
-                                }
-                                .show()
-                        }
-                    }
+                    viewModel.search(inputText = editText.text.toString())
                     return@setOnEditorActionListener true
                 }
                 return@setOnEditorActionListener false
             }
-
-        _binding.recyclerView.also {
-            it.layoutManager = layoutManager
-            it.addItemDecoration(dividerItemDecoration)
-            it.adapter = adapter
-        }
     }
 
     fun gotoRepositoryFragment(repository: Repository) {
         val action = RepositoriesFragmentDirections
             .actionRepositoriesFragmentToRepositoryFragment(repository = repository)
         findNavController().navigate(action)
+    }
+
+    private fun setDivider() {
+        val layoutManager = LinearLayoutManager(requireContext())
+        val dividerItemDecoration =
+            DividerItemDecoration(requireContext(), layoutManager.orientation)
+
+        _binding.recyclerView.also {
+            it.layoutManager = layoutManager
+            it.addItemDecoration(dividerItemDecoration)
+        }
     }
 
     override fun onDestroyView() {
