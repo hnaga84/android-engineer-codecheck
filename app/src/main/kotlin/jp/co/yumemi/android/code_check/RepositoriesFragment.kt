@@ -13,17 +13,29 @@ import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
 import android.widget.TextView
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.*
 import io.ktor.client.features.*
 import jp.co.yumemi.android.code_check.databinding.FragmentRepositoriesBinding
+import jp.co.yumemi.android.code_check.model.Repository
 
-class RepositoriesFragment : Fragment(R.layout.fragment_repositories) {
+class RepositoriesFragment : Fragment() {
+
+    private var binding: FragmentRepositoriesBinding? = null
+    private val _binding get() = binding!!
+
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
+        binding = FragmentRepositoriesBinding.inflate(inflater, container, false)
+        return _binding.root
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        val binding = FragmentRepositoriesBinding.bind(view)
 
         val viewModel = RepositoriesViewModel()
 
@@ -31,12 +43,15 @@ class RepositoriesFragment : Fragment(R.layout.fragment_repositories) {
         val dividerItemDecoration =
             DividerItemDecoration(requireContext(), layoutManager.orientation)
         val adapter = CustomAdapter(object : CustomAdapter.OnItemClickListener {
-            override fun itemClick(item: Item) {
+            override fun itemClick(item: Repository) {
                 gotoRepositoryFragment(item)
             }
         })
+        viewModel.repositories.observe(viewLifecycleOwner, Observer { it ->
+            it?.let { adapter.submitList(it) }
+        })
 
-        binding.searchInputText
+        _binding.searchInputText
             .setOnEditorActionListener { editText, action, _ ->
                 if (action == EditorInfo.IME_ACTION_SEARCH) {
                     val imm: InputMethodManager? =
@@ -46,9 +61,7 @@ class RepositoriesFragment : Fragment(R.layout.fragment_repositories) {
                     val inputText = editText.text.toString()
                     if (inputText.isNotEmpty()) {
                         try {
-                            viewModel.searchResults(inputText).apply {
-                                adapter.submitList(this)
-                            }
+                            viewModel.searchRepositories(inputText)
                         } catch (e: ClientRequestException) {
                             AlertDialog.Builder(requireContext()) // FragmentではActivityを取得して生成
                                 .setTitle("通信エラー")
@@ -72,26 +85,31 @@ class RepositoriesFragment : Fragment(R.layout.fragment_repositories) {
                 return@setOnEditorActionListener false
             }
 
-        binding.recyclerView.also {
+        _binding.recyclerView.also {
             it.layoutManager = layoutManager
             it.addItemDecoration(dividerItemDecoration)
             it.adapter = adapter
         }
     }
 
-    fun gotoRepositoryFragment(item: Item) {
+    fun gotoRepositoryFragment(repository: Repository) {
         val action = RepositoriesFragmentDirections
-            .actionRepositoriesFragmentToRepositoryFragment(item = item)
+            .actionRepositoriesFragmentToRepositoryFragment(repository = repository)
         findNavController().navigate(action)
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        binding = null
     }
 }
 
-val diffUtil = object : DiffUtil.ItemCallback<Item>() {
-    override fun areItemsTheSame(oldItem: Item, newItem: Item): Boolean {
+val diffUtil = object : DiffUtil.ItemCallback<Repository>() {
+    override fun areItemsTheSame(oldItem: Repository, newItem: Repository): Boolean {
         return oldItem.name == newItem.name
     }
 
-    override fun areContentsTheSame(oldItem: Item, newItem: Item): Boolean {
+    override fun areContentsTheSame(oldItem: Repository, newItem: Repository): Boolean {
         return oldItem == newItem
     }
 
@@ -99,12 +117,12 @@ val diffUtil = object : DiffUtil.ItemCallback<Item>() {
 
 class CustomAdapter(
     private val itemClickListener: OnItemClickListener,
-) : ListAdapter<Item, CustomAdapter.ViewHolder>(diffUtil) {
+) : ListAdapter<Repository, CustomAdapter.ViewHolder>(diffUtil) {
 
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view)
 
     interface OnItemClickListener {
-        fun itemClick(item: Item)
+        fun itemClick(item: Repository)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -114,13 +132,13 @@ class CustomAdapter(
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val item = getItem(position)
+        val repository = getItem(position)
 
         val repositoryNameView = holder.itemView.findViewById<View>(R.id.repositoryNameView)
-        if (repositoryNameView is TextView) repositoryNameView.text = item.name
+        if (repositoryNameView is TextView) repositoryNameView.text = repository.name
 
         holder.itemView.setOnClickListener {
-            itemClickListener.itemClick(item)
+            itemClickListener.itemClick(repository)
         }
     }
 }
