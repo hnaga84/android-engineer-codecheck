@@ -17,6 +17,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.*
 import jp.co.yumemi.android.code_check.databinding.FragmentRepositoriesBinding
 import jp.co.yumemi.android.code_check.model.Repository
+import jp.co.yumemi.android.code_check.view_model.RepositoriesViewModel
 
 class RepositoriesFragment : Fragment() {
 
@@ -36,7 +37,7 @@ class RepositoriesFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         val viewModel = RepositoriesViewModel()
-        val adapter = CustomAdapter(object : CustomAdapter.OnItemClickListener {
+        val adapter = RepositoryListAdapter(object : RepositoryListAdapter.OnItemClickListener {
             override fun itemClick(item: Repository) {
                 gotoRepositoryFragment(item)
             }
@@ -62,14 +63,18 @@ class RepositoriesFragment : Fragment() {
         _binding.searchInputText
             .setOnEditorActionListener { editText, action, _ ->
                 if (action == EditorInfo.IME_ACTION_SEARCH) {
-                    val imm: InputMethodManager? =
-                        requireContext().getSystemService(Context.INPUT_METHOD_SERVICE) as? InputMethodManager
-                    imm?.hideSoftInputFromWindow(view.windowToken, 0)
+                    hideKeyboard()
                     viewModel.search(inputText = editText.text.toString())
                     return@setOnEditorActionListener true
                 }
                 return@setOnEditorActionListener false
             }
+    }
+
+    private fun hideKeyboard() {
+        val imm: InputMethodManager? =
+            requireContext().getSystemService(Context.INPUT_METHOD_SERVICE) as? InputMethodManager
+        imm?.hideSoftInputFromWindow(view?.windowToken, 0)
     }
 
     fun gotoRepositoryFragment(repository: Repository) {
@@ -106,9 +111,9 @@ val diffUtil = object : DiffUtil.ItemCallback<Repository>() {
 
 }
 
-class CustomAdapter(
+class RepositoryListAdapter(
     private val itemClickListener: OnItemClickListener,
-) : ListAdapter<Repository, CustomAdapter.ViewHolder>(diffUtil) {
+) : ListAdapter<Repository, RepositoryListAdapter.ViewHolder>(diffUtil) {
 
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view)
 
