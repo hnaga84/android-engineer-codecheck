@@ -35,15 +35,10 @@ class RepositoryFragment : Fragment() {
 
         Log.d("検索した日時", lastSearchDate.toString())
 
-        var item = args.repository
+        val repository = args.repository
 
-        _binding.ownerIconView.load(item.ownerIconUrl);
-        _binding.nameView.text = item.name;
-        _binding.languageView.text = getString(R.string.written_language, item.language)
-        _binding.starsView.text = "${item.stargazersCount} stars";
-        _binding.watchersView.text = "${item.watchersCount} watchers";
-        _binding.forksView.text = "${item.forksCount} forks";
-        _binding.openIssuesView.text = "${item.openIssuesCount} open issues";
+        _binding.repository = repository
+        _binding.ownerIconView.load(repository.ownerIconUrl);
     }
 
     override fun onDestroyView() {
