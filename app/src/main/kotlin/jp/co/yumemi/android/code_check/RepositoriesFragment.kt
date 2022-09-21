@@ -17,11 +17,10 @@ import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.*
 import io.ktor.client.features.*
-import jp.co.yumemi.android.code_check.TopActivity.Companion.lastSearchDate
 import jp.co.yumemi.android.code_check.databinding.FragmentRepositoriesBinding
 import jp.co.yumemi.android.code_check.model.Repository
 
-class RepositoriesFragment : Fragment(R.layout.fragment_repositories) {
+class RepositoriesFragment : Fragment() {
 
     private var binding: FragmentRepositoriesBinding? = null
     private val _binding get() = binding!!
