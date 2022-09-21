@@ -62,14 +62,18 @@ class RepositoriesFragment : Fragment() {
         _binding.searchInputText
             .setOnEditorActionListener { editText, action, _ ->
                 if (action == EditorInfo.IME_ACTION_SEARCH) {
-                    val imm: InputMethodManager? =
-                        requireContext().getSystemService(Context.INPUT_METHOD_SERVICE) as? InputMethodManager
-                    imm?.hideSoftInputFromWindow(view.windowToken, 0)
+                    hideKeyboard()
                     viewModel.search(inputText = editText.text.toString())
                     return@setOnEditorActionListener true
                 }
                 return@setOnEditorActionListener false
             }
+    }
+
+    private fun hideKeyboard() {
+        val imm: InputMethodManager? =
+            requireContext().getSystemService(Context.INPUT_METHOD_SERVICE) as? InputMethodManager
+        imm?.hideSoftInputFromWindow(view?.windowToken, 0)
     }
 
     fun gotoRepositoryFragment(repository: Repository) {
