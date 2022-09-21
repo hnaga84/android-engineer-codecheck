@@ -17,6 +17,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.*
 import jp.co.yumemi.android.code_check.databinding.FragmentRepositoriesBinding
 import jp.co.yumemi.android.code_check.model.Repository
+import jp.co.yumemi.android.code_check.view_model.RepositoriesViewModel
 
 class RepositoriesFragment : Fragment() {
 
