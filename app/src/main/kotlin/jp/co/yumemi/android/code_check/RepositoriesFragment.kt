@@ -37,7 +37,7 @@ class RepositoriesFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         val viewModel = RepositoriesViewModel()
-        val adapter = CustomAdapter(object : CustomAdapter.OnItemClickListener {
+        val adapter = RepositoryListAdapter(object : RepositoryListAdapter.OnItemClickListener {
             override fun itemClick(item: Repository) {
                 gotoRepositoryFragment(item)
             }
@@ -111,9 +111,9 @@ val diffUtil = object : DiffUtil.ItemCallback<Repository>() {
 
 }
 
-class CustomAdapter(
+class RepositoryListAdapter(
     private val itemClickListener: OnItemClickListener,
-) : ListAdapter<Repository, CustomAdapter.ViewHolder>(diffUtil) {
+) : ListAdapter<Repository, RepositoryListAdapter.ViewHolder>(diffUtil) {
 
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view)
 
