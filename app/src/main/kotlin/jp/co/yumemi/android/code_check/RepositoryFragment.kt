@@ -14,7 +14,7 @@ import coil.load
 import jp.co.yumemi.android.code_check.TopActivity.Companion.lastSearchDate
 import jp.co.yumemi.android.code_check.databinding.FragmentRepositoryBinding
 
-class RepositoryFragment : Fragment(R.layout.fragment_repository) {
+class RepositoryFragment : Fragment() {
 
     private val args: RepositoryFragmentArgs by navArgs()
 
