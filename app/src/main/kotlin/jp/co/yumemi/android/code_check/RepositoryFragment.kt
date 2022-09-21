@@ -25,7 +25,7 @@ class RepositoryFragment : Fragment(R.layout.fragment_repository) {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         binding = FragmentRepositoryBinding.inflate(inflater, container, false)
         return _binding.root
     }
@@ -35,9 +35,7 @@ class RepositoryFragment : Fragment(R.layout.fragment_repository) {
 
         Log.d("検索した日時", lastSearchDate.toString())
 
-        binding = FragmentRepositoryBinding.bind(view)
-
-        var item = args.item
+        var item = args.repository
 
         _binding.ownerIconView.load(item.ownerIconUrl);
         _binding.nameView.text = item.name;

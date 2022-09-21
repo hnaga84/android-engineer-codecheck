@@ -10,4 +10,8 @@ data class Repository(
     val watchersCount: Long = 0,
     val forksCount: Long = 0,
     val openIssuesCount: Long = 0
-) : Serializable
+) : Serializable {
+    init {
+
+    }
+}
