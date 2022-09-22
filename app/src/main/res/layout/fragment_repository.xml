@@ -4,9 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context=".RepositoryFragment">
 
-    <data>
-        <variable name="repository" type="jp.co.yumemi.android.code_check.model.Repository" />
-    </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -30,7 +27,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            android:text="@{repository.fullName}"
+            android:text="JetBrains/kotlin"
             android:textColor="@color/black"
             android:textSize="18sp"
             app:layout_constraintEnd_toEndOf="parent"
@@ -42,7 +39,7 @@
             android:layout_height="wrap_content"
             android:paddingHorizontal="5dp"
             android:paddingVertical="3dp"
-            android:text="@{repository.visibility}"
+            android:text="public"
             android:background="@drawable/flame_style"
             android:textColor="@color/black"
             android:textSize="15sp"
@@ -64,7 +61,7 @@
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="16dp"
             android:layout_marginTop="8dp"
-            android:text="@{@string/written_language(repository.language)}"
+            android:text="Written in Kotlin"
             android:textColor="@color/black"
             android:textSize="14sp"
             app:layout_constraintTop_toBottomOf="@id/private_setting"
@@ -76,7 +73,7 @@
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="16dp"
             android:layout_marginTop="8dp"
-            android:text="@{@string/stars_count(repository.stargazersCount)}"
+            android:text="38530 stars"
             android:textAlignment="textEnd"
             android:textColor="@color/black"
             android:textSize="12sp"
@@ -90,7 +87,7 @@
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="16dp"
             android:layout_marginTop="8dp"
-            android:text="@{@string/watchers_count(repository.watchersCount)}"
+            android:text="38530 watchers"
             android:textAlignment="textEnd"
             android:textColor="@color/black"
             android:textSize="12sp"
@@ -104,7 +101,7 @@
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="16dp"
             android:layout_marginTop="8dp"
-            android:text="@{@string/forks_count(repository.forksCount)}"
+            android:text="4675 forks"
             android:textAlignment="textEnd"
             android:textColor="@color/black"
             android:textSize="12sp"
@@ -118,7 +115,7 @@
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="16dp"
             android:layout_marginTop="8dp"
-            android:text="@{@string/open_issues_count(repository.openIssuesCount)}"
+            android:text="131 open issues"
             android:textAlignment="textEnd"
             android:textColor="@color/black"
             android:textSize="12sp"
