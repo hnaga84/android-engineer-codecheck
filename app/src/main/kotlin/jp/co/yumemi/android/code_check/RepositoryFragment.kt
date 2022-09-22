@@ -3,6 +3,8 @@
  */
 package jp.co.yumemi.android.code_check
 
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -37,8 +39,21 @@ class RepositoryFragment : Fragment() {
 
         val repository = args.repository
 
-        _binding.repository = repository
-        _binding.ownerIconView.load(repository.ownerIconUrl);
+        _binding.apply {
+            ownerIconView.load(repository.ownerIconUrl);
+            fullNameView.text = repository.fullName;
+            languageView.text = repository.language?.let { getString(R.string.written_language, it) }
+            starsView.text = getString(R.string.stars_count, repository.stargazersCount.toString())
+            watchersView.text =
+                getString(R.string.watchers_count, repository.watchersCount.toString())
+            forksView.text = getString(R.string.forks_count, repository.forksCount.toString())
+            openIssuesView.text =
+                getString(R.string.open_issues_count, repository.openIssuesCount.toString())
+            openInBrowser.setOnClickListener(View.OnClickListener {
+                val intent = Intent(Intent.ACTION_VIEW, Uri.parse(repository.htmlUrl))
+                startActivity(intent)
+            })
+        }
     }
 
     override fun onDestroyView() {
