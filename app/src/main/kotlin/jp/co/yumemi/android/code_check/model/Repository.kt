@@ -6,7 +6,9 @@ data class Repository(
     val name: String = "",
     val full_name: String = "",
     val owner: Owner? = null,
-    val language: String = "",
+    val language: String? = null,
+    val description: String? = "",
+    val updated_at: String = "",
     val stargazers_count: Long = 0,
     val watchers_count: Long = 0,
     val forks_count: Long = 0,
@@ -25,6 +27,7 @@ data class Repository(
     val ownerIconUrl: String? get() = owner?.avatar_url
     val fullName: String get() = full_name
     val htmlUrl: String get() = html_url
+    val updatedAt: String get() = updated_at
 
 }
 

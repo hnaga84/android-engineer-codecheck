@@ -6,16 +6,68 @@
     android:background="?attr/selectableItemBackground">
 
     <TextView
-        android:id="@+id/repositoryNameView"
+        android:id="@+id/repositoryFullNameView"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="16dp"
         android:layout_marginVertical="8dp"
+        android:text="kotlin"
         android:textColor="@color/black"
-        android:textSize="12sp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/repositoryDescriptionView"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="16dp"
+        android:layout_marginVertical="3dp"
+        android:ellipsize="end"
+        android:maxLines="2"
+        android:text=""
+        android:textColor="@color/black"
+        android:textSize="14sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/repositoryFullNameView" />
+
+    <ImageView
+        android:id="@+id/repositoryStarImageView"
+        android:layout_width="16sp"
+        android:layout_height="16sp"
+        android:layout_marginHorizontal="16dp"
+        android:layout_marginTop="3dp"
+        android:layout_marginBottom="8dp"
+        android:contentDescription=""
+        android:src="@drawable/star"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/repositoryDescriptionView" />
+
+    <TextView
+        android:id="@+id/repositoryStarsView"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="12"
+        android:textColor="@color/black"
+        android:textSize="12sp"
+        app:layout_constraintBottom_toBottomOf="@id/repositoryStarImageView"
+        app:layout_constraintStart_toEndOf="@id/repositoryStarImageView"
+        app:layout_constraintTop_toTopOf="@id/repositoryStarImageView" />
+
+    <TextView
+        android:id="@+id/repositoryLanguageView"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:text=""
+        android:textColor="@color/black"
+        android:textSize="12sp"
+        app:layout_constraintBottom_toBottomOf="@id/repositoryStarImageView"
+        app:layout_constraintStart_toEndOf="@id/repositoryStarsView"
+        app:layout_constraintTop_toTopOf="@id/repositoryStarImageView" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

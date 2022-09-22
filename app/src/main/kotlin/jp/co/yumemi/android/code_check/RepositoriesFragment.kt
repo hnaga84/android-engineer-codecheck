@@ -12,7 +12,6 @@ import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
 import android.widget.TextView
-import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
@@ -61,7 +60,8 @@ class RepositoriesFragment : Fragment() {
             }
         }
         viewModel.loading.observe(viewLifecycleOwner) { it ->
-            if (it) _binding.progressBar.visibility = View.VISIBLE else _binding.progressBar.visibility = View.GONE
+            if (it) _binding.progressBar.visibility =
+                View.VISIBLE else _binding.progressBar.visibility = View.GONE
         }
 
         setDivider()
@@ -136,8 +136,21 @@ class RepositoryListAdapter(
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val repository = getItem(position)
 
-        val repositoryNameView = holder.itemView.findViewById<View>(R.id.repositoryNameView)
-        if (repositoryNameView is TextView) repositoryNameView.text = repository.name
+        val repositoryFullNameView = holder.itemView.findViewById<View>(R.id.repositoryFullNameView)
+        if (repositoryFullNameView is TextView) repositoryFullNameView.text = repository.fullName
+
+        val repositoryDescriptionView =
+            holder.itemView.findViewById<View>(R.id.repositoryDescriptionView)
+        if (repositoryDescriptionView is TextView) repository.description?.let {
+            repositoryDescriptionView.text = it
+        }
+
+        val repositoryStarsView = holder.itemView.findViewById<View>(R.id.repositoryStarsView)
+        if (repositoryStarsView is TextView) repositoryStarsView.text =
+            repository.stargazersCount.toString()
+
+        val repositoryLanguageView = holder.itemView.findViewById<View>(R.id.repositoryLanguageView)
+        if (repositoryLanguageView is TextView) repository.language?.let { repositoryLanguageView.text = it }
 
         holder.itemView.setOnClickListener {
             itemClickListener.itemClick(repository)

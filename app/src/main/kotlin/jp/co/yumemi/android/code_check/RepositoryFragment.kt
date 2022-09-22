@@ -42,7 +42,7 @@ class RepositoryFragment : Fragment() {
         _binding.apply {
             ownerIconView.load(repository.ownerIconUrl);
             fullNameView.text = repository.fullName;
-            languageView.text = getString(R.string.written_language, repository.language)
+            languageView.text = repository.language?.let { getString(R.string.written_language, it) }
             starsView.text = getString(R.string.stars_count, repository.stargazersCount.toString())
             watchersView.text =
                 getString(R.string.watchers_count, repository.watchersCount.toString())

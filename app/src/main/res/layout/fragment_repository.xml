@@ -33,20 +33,20 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/ownerIconView" />
+
         <TextView
             android:id="@+id/private_setting"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:background="@drawable/flame_style"
             android:paddingHorizontal="5dp"
             android:paddingVertical="3dp"
             android:text="public"
-            android:background="@drawable/flame_style"
             android:textColor="@color/black"
             android:textSize="15sp"
-            app:layout_constraintStart_toStartOf="@id/fullNameView"
             app:layout_constraintEnd_toEndOf="@id/fullNameView"
-            app:layout_constraintTop_toBottomOf="@id/fullNameView"
-            />
+            app:layout_constraintStart_toStartOf="@id/fullNameView"
+            app:layout_constraintTop_toBottomOf="@id/fullNameView" />
 
         <androidx.constraintlayout.widget.Guideline
             android:id="@+id/centerGuid"
@@ -61,7 +61,7 @@
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="16dp"
             android:layout_marginTop="8dp"
-            android:text="Written in Kotlin"
+            android:text=""
             android:textColor="@color/black"
             android:textSize="14sp"
             app:layout_constraintStart_toStartOf="parent"
@@ -135,7 +135,6 @@
             android:textSize="12sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@id/openIssuesView" />
-
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
