@@ -17,15 +17,14 @@ import java.util.*
 /**
  * RepositoriesFragment で使う
  */
-class RepositoriesViewModel : ViewModel(
-
+class RepositoriesViewModel(
+    private val githubAppRepository: GithubAppRepository = GithubAppRepository()
+) : ViewModel(
 ) {
     var repositories: MutableLiveData<List<Repository>> = MutableLiveData<List<Repository>>()
     val searchError: MutableLiveData<Throwable> = MutableLiveData<Throwable>()
     var alertTitle: String? = null
     var alertMessage: String? = null
-
-    private val githubAppRepository: GithubAppRepository = GithubAppRepository()
 
     private val job = SupervisorJob()
     private val scope = CoroutineScope(Dispatchers.Default + job)
