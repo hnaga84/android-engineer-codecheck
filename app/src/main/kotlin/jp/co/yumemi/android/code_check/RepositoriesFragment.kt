@@ -13,6 +13,7 @@ import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
 import android.widget.TextView
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.*
 import jp.co.yumemi.android.code_check.databinding.FragmentRepositoriesBinding
@@ -20,6 +21,8 @@ import jp.co.yumemi.android.code_check.model.Repository
 import jp.co.yumemi.android.code_check.view_model.RepositoriesViewModel
 
 class RepositoriesFragment : Fragment() {
+
+    val viewModel by viewModels<RepositoriesViewModel>()
 
     private var binding: FragmentRepositoriesBinding? = null
     private val _binding get() = binding!!
@@ -36,7 +39,6 @@ class RepositoriesFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val viewModel = RepositoriesViewModel()
         val adapter = RepositoryListAdapter(object : RepositoryListAdapter.OnItemClickListener {
             override fun itemClick(item: Repository) {
                 gotoRepositoryFragment(item)
