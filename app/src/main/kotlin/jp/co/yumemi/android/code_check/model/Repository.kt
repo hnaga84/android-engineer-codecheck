@@ -11,7 +11,8 @@ data class Repository(
     val watchers_count: Long = 0,
     val forks_count: Long = 0,
     val open_issues_count: Long = 0,
-    val visibility: String = ""
+    val visibility: String = "",
+    val html_url: String = ""
 ) : Serializable {
     init {
 
@@ -23,9 +24,11 @@ data class Repository(
     val openIssuesCount: Long get() = open_issues_count
     val ownerIconUrl: String? get() = owner?.avatar_url
     val fullName: String get() = full_name
+    val htmlUrl: String get() = html_url
+
 }
 
 
 data class Owner(
     val avatar_url: String = ""
-)
+) : Serializable
