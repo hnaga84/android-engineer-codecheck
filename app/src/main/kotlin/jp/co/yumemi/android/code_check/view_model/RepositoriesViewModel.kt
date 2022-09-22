@@ -25,6 +25,7 @@ class RepositoriesViewModel(
     val searchError: MutableLiveData<Throwable> = MutableLiveData<Throwable>()
     var alertTitle: String? = null
     var alertMessage: String? = null
+    val loading: MutableLiveData<Boolean> = MutableLiveData<Boolean>(false)
 
     private val job = SupervisorJob()
     private val scope = CoroutineScope(Dispatchers.Default + job)
@@ -45,12 +46,15 @@ class RepositoriesViewModel(
                     Log.d("error", throwable.printStackTrace().toString())
                 }
             }
+            loading.postValue(false)
         }
 
     private fun fetchRepositories(inputText: String) {
         scope.launch(coroutineExceptionHandler) {
+            loading.postValue(true)
             repositories.postValue(githubAppRepository.getRepositories(query = inputText)?.items)
             lastSearchDate = Date()
+            loading.postValue(false)
         }
     }
 
