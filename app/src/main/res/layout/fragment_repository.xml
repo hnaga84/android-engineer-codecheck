@@ -26,16 +26,30 @@
             app:layout_constraintWidth_max="240dp" />
 
         <TextView
-            android:id="@+id/nameView"
+            android:id="@+id/fullNameView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            android:text="@{repository.name}"
+            android:text="@{repository.fullName}"
             android:textColor="@color/black"
             android:textSize="18sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/ownerIconView" />
+        <TextView
+            android:id="@+id/private_setting"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingHorizontal="5dp"
+            android:paddingVertical="3dp"
+            android:text="@{repository.visibility}"
+            android:background="@drawable/flame_style"
+            android:textColor="@color/black"
+            android:textSize="15sp"
+            app:layout_constraintStart_toStartOf="@id/fullNameView"
+            app:layout_constraintEnd_toEndOf="@id/fullNameView"
+            app:layout_constraintTop_toBottomOf="@id/fullNameView"
+            />
 
         <androidx.constraintlayout.widget.Guideline
             android:id="@+id/centerGuid"
@@ -53,7 +67,7 @@
             android:text="@{@string/written_language(repository.language)}"
             android:textColor="@color/black"
             android:textSize="14sp"
-            app:layout_constraintTop_toBottomOf="@id/nameView"
+            app:layout_constraintTop_toBottomOf="@id/private_setting"
             tools:ignore="MissingConstraints" />
 
         <TextView
@@ -68,7 +82,7 @@
             android:textSize="12sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="@id/centerGuid"
-            app:layout_constraintTop_toBottomOf="@id/nameView" />
+            app:layout_constraintTop_toBottomOf="@id/private_setting" />
 
         <TextView
             android:id="@+id/watchersView"

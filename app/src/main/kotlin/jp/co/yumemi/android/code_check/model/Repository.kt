@@ -4,12 +4,14 @@ import java.io.Serializable
 
 data class Repository(
     val name: String = "",
+    val full_name: String = "",
     val owner: Owner? = null,
     val language: String = "",
     val stargazers_count: Long = 0,
     val watchers_count: Long = 0,
     val forks_count: Long = 0,
     val open_issues_count: Long = 0,
+    val visibility: String = ""
 ) : Serializable {
     init {
 
@@ -20,6 +22,7 @@ data class Repository(
     val forksCount: Long get() = forks_count
     val openIssuesCount: Long get() = open_issues_count
     val ownerIconUrl: String? get() = owner?.avatar_url
+    val fullName: String get() = full_name
 }
 
 
